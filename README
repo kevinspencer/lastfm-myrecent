@@ -5,6 +5,7 @@ Communicates with last.fm to find your most recently listened to tracks.
 USAGE
 
     lastfm-myrecent
+    lastfm-myrecent -c 10 (displays the most recent 10 tracks)
 
 CONFIGURATION
 

@@ -16,14 +16,20 @@
 #
 ################################################################################
 
+use Getopt::Std;
 use JSON::XS;
 use LWP::UserAgent;
 use URI;
 use strict;
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
+getopts('c:');
+our $opt_c;
 my $user    = '';
 my $api_key = '';
+
+# how many tracks should we retrieve?
+my $track_count = $opt_c || 3;
 
 # no user serviceable params below this point
 
@@ -33,7 +39,7 @@ my %params = (
     api_key => $api_key,
     method  => 'user.GetRecentTracks',
     user    => $user,
-    limit   => 3,
+    limit   => $track_count,
     format  => 'json'
 );
 $uri->query_form(%params);
