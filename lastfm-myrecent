@@ -16,20 +16,27 @@
 #
 ################################################################################
 
-use Getopt::Std;
+use Data::Dumper;
+use Getopt::Long;
 use JSON::XS;
 use LWP::UserAgent;
 use URI;
 use strict;
-our $VERSION = '0.3';
+use warnings;
 
-getopts('c:');
-our $opt_c;
-my $user    = '';
+our $VERSION = '0.4';
+
+$Data::Dumper::Indent = 1;
+
+my ($track_count, $lastfm_user);
+GetOptions("count=i" => \$track_count, "user=s" => \$lastfm_user);
+
+die "No user provided, lastfm-myrecent --user oldmanrivers\n" if (! $lastfm_user);
+
 my $api_key = $ENV{LFM_API_KEY} or die "No last.fm API key found\n";
 
 # how many tracks should we retrieve?
-my $track_count = $opt_c || 3;
+$track_count ||= 3;
 
 # no user serviceable params below this point
 
@@ -38,7 +45,7 @@ my $uri = URI->new($api_url);
 my %params = (
     api_key => $api_key,
     method  => 'user.GetRecentTracks',
-    user    => $user,
+    user    => $lastfm_user,
     limit   => $track_count,
     format  => 'json'
 );
@@ -58,6 +65,8 @@ if ($data->{error}) {
     die "ERROR $data->{error}: $data->{message}\n";
 }
 
+
 for my $track_info (@{$data->{recenttracks}{track}}) {
+    next if (! $track_info->{date}{'#text'}); # still playing?
     print $track_info->{artist}{'#text'} . ' - ' . $track_info->{name} . ' - ' . $track_info->{date}{'#text'}, "\n";
 }

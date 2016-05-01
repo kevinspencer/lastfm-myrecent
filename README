@@ -4,10 +4,10 @@ Communicates with last.fm to find your most recently listened to tracks.
 
 USAGE
 
-    lastfm-myrecent
-    lastfm-myrecent -c 10 (displays the most recent 10 tracks)
+    lastfm-myrecent --user oldmanrivers
+    lastfm-myrecent --count 10 (displays the most recent 10 tracks)
 
 CONFIGURATION
 
     Uses the last.fm API (http://www.last.fm/api/intro) and thus requires
-    a last.fm API key.  Edit the $user and $api_key variables accordingly.
+    a last.fm API key.  Set the API key in your environment for LFM_API_KEY
