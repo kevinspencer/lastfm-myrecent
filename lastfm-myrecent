@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Copyright 2008-2013 Kevin Spencer <kevin@kevinspencer.org>
+# Copyright 2008-2016 Kevin Spencer <kevin@kevinspencer.org>
 #
 # Permission to use, copy, modify, distribute, and sell this software and its
 # documentation for any purpose is hereby granted without fee, provided that
@@ -21,12 +21,12 @@ use JSON::XS;
 use LWP::UserAgent;
 use URI;
 use strict;
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 getopts('c:');
 our $opt_c;
 my $user    = '';
-my $api_key = '';
+my $api_key = $ENV{LFM_API_KEY} or die "No last.fm API key found\n";
 
 # how many tracks should we retrieve?
 my $track_count = $opt_c || 3;
